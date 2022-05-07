@@ -45,12 +45,12 @@ def run(x, y):
     for i in range(1, len(memo)):
         for j in range(1, len(memo[0])):
             memo[i][j] = min(
-                MISMATCH_PENALTY[(x[i - 1], y[j - 1])] + memo[i-1][j-1], 
-                GAP_PENALTY + memo[i-1][j],
-                GAP_PENALTY + memo[i][j-1]
+                MISMATCH_PENALTY[(x[i - 1], y[j - 1])] + memo[i-1][j-1],  # mismatch
+                GAP_PENALTY + memo[i-1][j], # gap on y
+                GAP_PENALTY + memo[i][j-1] # gap on x
             )
     
-    print(memo[len(x)][len(y)])
+    print(memo)
 
 
 def generateStrings(fileName):
