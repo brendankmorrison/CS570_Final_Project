@@ -28,8 +28,6 @@ def main():
     run(x, y)
 
 def run(x, y):
-    print(x)
-    print(y)
     # len(x): number of rows
     # len(y): number of columns
     memo = [[0 for i in range(len(y) + 1)] for j in range(len(x) + 1)]
@@ -51,6 +49,38 @@ def run(x, y):
             )
     
     # reconstruct solution
+    i = len(x)
+    j = len(y)
+    xans = ""
+    yans = ""
+    while((i != 0) and (j != 0)):
+        if(memo[i][j] == MISMATCH_PENALTY[(x[i - 1], y[j - 1])] + memo[i-1][j-1]):
+            xans = x[i - 1] + xans
+            yans = y[j - 1] + yans
+            i -= 1
+            j -= 1
+        elif (memo[i][j] == GAP_PENALTY + memo[i-1][j]):
+            xans = x[i - 1] + xans
+            yans = "_" + yans
+            i -= 1
+        elif (memo[i][j] == GAP_PENALTY + memo[i][j - 1]):
+            xans = "_" + xans
+            yans = y[j - 1] + yans
+            j -= 1
+
+    while(i > 0):
+        xans = x[i - 1] + xans
+        yans = "_" + yans
+        i -= 1
+    while(j > 0):
+        xans = "_" + xans
+        yans = y[j - 1] + yans
+        j -= 1
+
+
+    
+    print(i, j)
+
     # starting at memo[len(x)][len(y)]
         # check if:
             # memo[i-1][j-1] +  mismatch penalty = memo[i][j]  -> mismatch
@@ -59,7 +89,8 @@ def run(x, y):
         # repeat until i,j = 0
     # return x and y
 
-    print(memo)
+    print(memo[len(x)][len(y)])
+    check(xans, yans)
 
 
 def generateStrings(fileName):
@@ -97,6 +128,20 @@ def generateStrings(fileName):
     y = y.replace(' ', '').replace('\n', '')
 
     return[x, y]
+
+def check(x, y):
+    print(x)
+    print(y)
+    cost = 0
+    for i in range(len(x)):
+        if(x[i] == '_'):
+            cost += GAP_PENALTY
+        elif(y[i] == '_'):
+            cost += GAP_PENALTY
+        else:
+            cost += MISMATCH_PENALTY[(x[i], y[i])]
+
+    print(cost)
 
 
 if __name__ == "__main__":
