@@ -1,31 +1,29 @@
 import sys
 
-GAP_PENALTY = 2
+GAP_PENALTY = 30
 
-# strings are made up of only A, T, C, G
-# we need to make a datastructure for mismatch penalties between these
 MISMATCH_PENALTY = {
     ('A', 'A'): 0,
     ('T', 'T'): 0,
     ('C', 'C'): 0,
     ('G', 'G'): 0,
-    ('A', 'T'): 1,
-    ('T', 'A'): 1,
-    ('A', 'C'): 2,
-    ('C', 'A'): 2,
-    ('A', 'G'): 3,
-    ('G', 'A'): 3,
-    ('T', 'C'): 4,
-    ('C', 'T'): 4,
-    ('T', 'G'): 5,
-    ('G', 'T'): 5,
-    ('G', 'C'): 6,
-    ('C', 'G'): 6,
+    ('A', 'T'): 94,
+    ('T', 'A'): 94,
+    ('A', 'C'): 110,
+    ('C', 'A'): 110,
+    ('A', 'G'): 48,
+    ('G', 'A'): 48,
+    ('T', 'C'): 48,
+    ('C', 'T'): 48,
+    ('T', 'G'): 48,
+    ('G', 'T'): 48,
+    ('G', 'C'): 118,
+    ('C', 'G'): 118,
 }
 
 
 def main():
-    INPUT = "datapoints/" + sys.argv[1]
+    INPUT = "SampleTestCases/" + sys.argv[1]
     [x, y] = generateStrings(INPUT)
     run(x, y)
 
