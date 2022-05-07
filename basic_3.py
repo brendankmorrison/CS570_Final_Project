@@ -50,6 +50,15 @@ def run(x, y):
                 GAP_PENALTY + memo[i][j-1] # gap on x
             )
     
+    # reconstruct solution
+    # starting at memo[len(x)][len(y)]
+        # check if:
+            # memo[i-1][j-1] +  mismatch penalty = memo[i][j]  -> mismatch
+            # memo[i-1][j] + gap_penalty = memo[i][j]  -> gap on y
+            # memo[i][j-1] + gap_penalty = memo[i][j]  -> gap on x
+        # repeat until i,j = 0
+    # return x and y
+
     print(memo)
 
 
