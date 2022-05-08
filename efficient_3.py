@@ -131,6 +131,8 @@ def nw_score(x, y):
         # prev = current
 
 
+    print("test: " + str(current))
+
     return current
 """
 
