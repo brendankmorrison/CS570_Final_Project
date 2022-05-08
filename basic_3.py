@@ -133,13 +133,6 @@ def process_memory():
     memory_consumed = int(memory_info.rss/1024)
     return memory_consumed
 
-def time_wrapper():
-    start_time = time.time()
-    call_algorithm()
-    end_time = time.time()
-    time_taken = (end_time - start_time)*1000
-    return time_taken
-
 def check(x, y):
     print(x)
     print(y)
