@@ -112,10 +112,11 @@ def sub(x, y):
 def argmax(score_l, score_r):
     max_index = 0
     max_sum = float('-Inf')
-    for i, (l, r) in enumerate(zip(score_l, score_r)):
-        if sum([l, r]) > max_sum:
-            max_sum = sum([l, r])
+    for i in range(len(score_l)):
+        if score_l[i] + score_r[i] > max_sum:
+            max_sum = score_l[i] + score_r[i]
             max_index = i
+
     return max_index
 
 
