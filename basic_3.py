@@ -1,4 +1,7 @@
 import sys
+from resource import *
+import time
+import psutil
 
 GAP_PENALTY = 30
 
@@ -25,7 +28,15 @@ MISMATCH_PENALTY = {
 def main():
     INPUT = "SampleTestCases/" + sys.argv[1]
     [x, y] = generateStrings(INPUT)
-    run(x, y)
+    start_time = time.time()
+    output = run(x, y)
+    end_time = time.time()
+    time_taken = (end_time - start_time)*1000
+    print(output[0])
+    print(output[1])
+    print(output[2])
+    print(time_taken)
+    print(process_memory())
 
 def run(x, y):
     # len(x): number of rows
@@ -77,20 +88,7 @@ def run(x, y):
         yans = y[j - 1] + yans
         j -= 1
 
-
-    
-    print(i, j)
-
-    # starting at memo[len(x)][len(y)]
-        # check if:
-            # memo[i-1][j-1] +  mismatch penalty = memo[i][j]  -> mismatch
-            # memo[i-1][j] + gap_penalty = memo[i][j]  -> gap on y
-            # memo[i][j-1] + gap_penalty = memo[i][j]  -> gap on x
-        # repeat until i,j = 0
-    # return x and y
-
-    print(memo[len(x)][len(y)])
-    check(xans, yans)
+    return([memo[len(x)][len(y)], xans, yans])
 
 
 def generateStrings(fileName):
@@ -128,6 +126,19 @@ def generateStrings(fileName):
     y = y.replace(' ', '').replace('\n', '')
 
     return[x, y]
+
+def process_memory():
+    process = psutil.Process()
+    memory_info = process.memory_info()
+    memory_consumed = int(memory_info.rss/1024)
+    return memory_consumed
+
+def time_wrapper():
+    start_time = time.time()
+    call_algorithm()
+    end_time = time.time()
+    time_taken = (end_time - start_time)*1000
+    return time_taken
 
 def check(x, y):
     print(x)
