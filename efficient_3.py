@@ -30,6 +30,7 @@ MISMATCH_PENALTY = {
 def main():
     filepath = "SampleTestCases/" + sys.argv[1]
     [x, y] = generateStrings(filepath)
+    # print(str(nw_score(x, y)))
     start_time = time.time()
     z, w = hirschberg(x, y)
     end_time = time.time()
@@ -44,11 +45,67 @@ def main():
     # y answer
     print(w)
     # time
-    print(time_taken)
+    # print(time_taken)
     # memory
-    print(process_memory())
+    # print(process_memory())
 
 
+def hirschberg(x, y):
+    z = ""
+    w = ""
+    if len(x) < 2 or len(y) < 2:
+        output = nw(x, y)
+        z = output[1]
+        w = output[2]
+    else:
+        m = len(x)
+        n = len(y)
+
+        score_l = nw_score(x, y[:n//2])
+        score_r = nw_score(x[::-1], y[n//2:][::-1])
+        q = argmin(score_l, score_r[::-1])
+
+        zl, wl = hirschberg(x[:q], y[:n//2])
+        zr, wr = hirschberg(x[q:], y[n//2:])
+
+        z = zl + zr
+        w = wl + wr
+
+    return z, w
+
+
+def nw_score(x, y):
+    prev = [i * GAP_PENALTY for i in range(len(x) + 1)]
+    current = [0 for i in range(len(x) + 1)]
+
+    for j in range(1, len(y) + 1):
+        current[0] = j * GAP_PENALTY
+        for i in range(1, len(x) + 1):
+            score_sub = prev[i - 1] + MISMATCH_PENALTY[(x[i - 1], y[j - 1])]
+            score_del = prev[i] + GAP_PENALTY
+            score_ins = current[i - 1] + GAP_PENALTY
+            current[i] = min(score_sub, score_del, score_ins)
+        # prev = copy.copy(current)
+        prev = copy.deepcopy(current)
+        # prev = current
+
+
+
+    return current
+
+
+def argmin(score_l, score_r):
+    min_index = 0
+    min_sum = float('Inf')
+    for i in range(len(score_l)):
+        if score_l[i] + score_r[i] < min_sum:
+            min_sum = score_l[i] + score_r[i]
+            min_index = i
+
+    return min_index
+
+
+"""
 def hirschberg(x, y):
     z = ""
     w = ""
@@ -82,32 +139,6 @@ def hirschberg(x, y):
     return z, w
 
 
-def nw_score(x, y):
-    insert = -2
-    delete = -2
-
-    prev = [0 for i in range(len(y) + 1)]
-    current = [0 for i in range(len(y) + 1)]
-
-    for j in range(1, len(y) + 1):
-        prev[j] = prev[j - 1] + insert
-
-    for i in range(1, len(x) + 1):
-        current[0] = current[0] + delete
-        for j in range(1, len(y) + 1):
-            score_sub = prev[j - 1] + sub(x[i - 1], y[j - 1])
-            score_del = prev[j] + delete
-            score_ins = current[j - 1] + insert
-            current[j] = max(score_sub, score_del, score_ins)
-        # prev = copy.copy(current)
-        prev = copy.deepcopy(current)
-        # prev = current
-
-
-    return current
-
-
-"""
 # returns last line of the nw score matrix
 def nw_score(x, y):
     insert = -2
