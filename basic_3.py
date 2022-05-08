@@ -32,11 +32,18 @@ def main():
     output = run(x, y)
     end_time = time.time()
     time_taken = (end_time - start_time)*1000
-    print(output[0])
-    print(output[1])
-    print(output[2])
-    print(time_taken)
-    print(process_memory())
+
+    try:
+        outputFile = open(sys.argv[2], "w") 
+    except:
+        outputFile = open(sys.argv[2], "x") 
+    outputFile.write(str(output[0]) + '\n')
+    outputFile.write(output[1] + '\n')
+    outputFile.write(output[2] + '\n')
+    outputFile.write(str(time_taken) + '\n')
+    outputFile.write(str(process_memory()) + '\n')
+    outputFile.close() 
+
 
 def run(x, y):
     # len(x): number of rows
