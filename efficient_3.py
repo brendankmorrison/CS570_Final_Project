@@ -34,6 +34,9 @@ def main():
     z, w = hirschberg(x, y)
     end_time = time.time()
     time_taken = (end_time - start_time) * 1000
+    # validate
+    # print(validateStrings(x, z))
+    # print(validateStrings(y, w))
     # score
     check(z, w)
     # x answer
@@ -79,6 +82,32 @@ def hirschberg(x, y):
     return z, w
 
 
+def nw_score(x, y):
+    insert = -2
+    delete = -2
+
+    prev = [0 for i in range(len(y) + 1)]
+    current = [0 for i in range(len(y) + 1)]
+
+    for j in range(1, len(y) + 1):
+        prev[j] = prev[j - 1] + insert
+
+    for i in range(1, len(x) + 1):
+        current[0] = current[0] + delete
+        for j in range(1, len(y) + 1):
+            score_sub = prev[j - 1] + sub(x[i - 1], y[j - 1])
+            score_del = prev[j] + delete
+            score_ins = current[j - 1] + insert
+            current[j] = max(score_sub, score_del, score_ins)
+        # prev = copy.copy(current)
+        prev = copy.deepcopy(current)
+        # prev = current
+
+
+    return current
+
+
+"""
 # returns last line of the nw score matrix
 def nw_score(x, y):
     insert = -2
@@ -97,10 +126,13 @@ def nw_score(x, y):
             score_del = prev[j] + delete
             score_ins = current[j - 1] + insert
             current[j] = max(score_sub, score_del, score_ins)
+        # prev = copy.copy(current)
         prev = copy.deepcopy(current)
+        # prev = current
+
 
     return current
-
+"""
 
 def sub(x, y):
     if x == y:
@@ -228,6 +260,19 @@ def check(x, y):
             cost += MISMATCH_PENALTY[(x[i], y[i])]
 
     print(cost)
+
+
+def validateStrings(before, after):
+    result = True
+    iterator = 0
+    for character in after:
+        if(character != "_"):
+            if(character != before[iterator]):
+                return False
+            else:
+                iterator += 1
+    
+    return True
 
 
 if __name__ == "__main__":
