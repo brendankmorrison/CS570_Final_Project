@@ -53,6 +53,7 @@ def main():
     end_time = time.time()
     time_taken = (end_time - start_time) * 1000
     # score
+    check(output[1], output[2])
     print(output[0])
     # x answer
     print(output[1])
@@ -159,8 +160,6 @@ def process_memory():
     return memory_consumed
 
 def check(x, y):
-    print(x)
-    print(y)
     cost = 0
     for i in range(len(x)):
         if(x[i] == '_'):
