@@ -33,6 +33,8 @@ def main():
     end_time = time.time()
     time_taken = (end_time - start_time)*1000
 
+    print(validateStrings(x, output[1]))
+    print(validateStrings(y, output[2]))
     try:
         outputFile = open(sys.argv[2], "w") 
     except:
@@ -153,6 +155,21 @@ def check(x, y):
             cost += MISMATCH_PENALTY[(x[i], y[i])]
 
     print(cost)
+
+def validateStrings(before, after):
+    result = True
+    iterator = 0
+    for character in after:
+        if(character != "_"):
+            if(character != before[iterator]):
+                return False
+            else:
+                iterator += 1
+    
+    return True
+
+
+
 
 
 if __name__ == "__main__":
