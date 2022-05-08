@@ -29,16 +29,59 @@ def main():
     INPUT = "SampleTestCases/" + sys.argv[1]
     [x, y] = generateStrings(INPUT)
     start_time = time.time()
-    output = run(x, y)
+    output = nw(x, y)
     end_time = time.time()
     time_taken = (end_time - start_time)*1000
+    # score
     print(output[0])
+    # x answer
     print(output[1])
+    # y answer
     print(output[2])
+    # time
     print(time_taken)
+    # memory
     print(process_memory())
 
-def run(x, y):
+def hirschberg(x, y):
+    z = ""
+    w = ""
+    if len(x) == 0:
+        for i in y:
+            z = z + '-'
+            w = w + i
+    elif len(y) == 0:
+        for i in x:
+            z = z + i
+            w = w + '-'
+    elif len(x) == 1 or len(y) == 1:
+        output = nw(x, y)
+        z = output[1]
+        w = output[2]
+    else:
+        xlen = len(x)
+        xmid = len(x) / 2
+        ylen = len(y)
+
+        # scoreL = nwScore(x[:xmid], y)
+        # scoreR = nwScore(x[xmid:][::-1], y[::-1])
+        ymid = argMax(scoreL + scoreR[::-1])
+
+        z, w = hirschberg(x[:xmid], y[:ymid]) + hirschberg(x[xmid:], y[ymid:])
+    
+    return z, w
+
+def argMax(scoreL, scoreR):
+  max_index = 0
+  max_sum = float('-Inf')
+  for i, (l, r) in enumerate(zip(scoreL, scoreR)):
+    # calculate the diagonal maximum index
+    if sum([l, r]) > max_sum:
+      max_sum = sum([l, r])
+      max_index = i
+  return max_index 
+
+def nw(x, y):
     # len(x): number of rows
     # len(y): number of columns
     memo = [[0 for i in range(len(y) + 1)] for j in range(len(x) + 1)]
