@@ -28,6 +28,25 @@ MISMATCH_PENALTY = {
 
 
 def main():
+    INPUT = "SampleTestCases/" + sys.argv[1]
+    [x, y] = generateStrings(INPUT)
+    start_time = time.time()
+    z, w = hirschberg(x, y)
+    end_time = time.time()
+    time_taken = (end_time - start_time)*1000
+
+    try:
+        outputFile = open(sys.argv[2], "w") 
+    except:
+        outputFile = open(sys.argv[2], "x") 
+    outputFile.write(str(check(z, w)) + '\n')
+    outputFile.write(z + '\n')
+    outputFile.write(w + '\n')
+    outputFile.write(str(time_taken) + '\n')
+    outputFile.write(str(process_memory()) + '\n')
+    outputFile.close() 
+
+    """
     filepath = "SampleTestCases/" + sys.argv[1]
     [x, y] = generateStrings(filepath)
     # print(str(nw_score(x, y)))
@@ -48,6 +67,7 @@ def main():
     # print(time_taken)
     # memory
     # print(process_memory())
+    """
 
 
 def hirschberg(x, y):
@@ -292,7 +312,7 @@ def check(x, y):
         else:
             cost += MISMATCH_PENALTY[(x[i], y[i])]
 
-    print(cost)
+    return(cost)
 
 
 def validateStrings(before, after):
