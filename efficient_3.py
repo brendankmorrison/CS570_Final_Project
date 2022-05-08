@@ -99,6 +99,8 @@ def nw_score(x, y):
             current[j] = max(score_sub, score_del, score_ins)
         prev = copy.deepcopy(current)
 
+    print("test: " + str(current))
+
     return current
 
 

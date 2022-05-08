@@ -26,7 +26,6 @@ MISMATCH_PENALTY = {
 
 
 def main():
-    """
     INPUT = "SampleTestCases/" + sys.argv[1]
     [x, y] = generateStrings(INPUT)
     start_time = time.time()
@@ -46,25 +45,7 @@ def main():
     outputFile.write(str(time_taken) + '\n')
     outputFile.write(str(process_memory()) + '\n')
     outputFile.close() 
-    """
 
-    INPUT = "SampleTestCases/" + sys.argv[1]
-    [x, y] = generateStrings(INPUT)
-    start_time = time.time()
-    output = run(x, y)
-    end_time = time.time()
-    time_taken = (end_time - start_time) * 1000
-    # score
-    check(output[1], output[2])
-    print(output[0])
-    # x answer
-    print(output[1])
-    # y answer
-    print(output[2])
-    # time
-    print(time_taken)
-    # memory
-    print(process_memory())
 
 def run(x, y):
     # len(x): number of rows
