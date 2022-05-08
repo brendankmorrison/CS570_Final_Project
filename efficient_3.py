@@ -1,5 +1,7 @@
 import sys
-from resource import *
+import pdb
+import copy
+# from resource import *
 import time
 import psutil
 
@@ -29,15 +31,15 @@ def main():
     INPUT = "SampleTestCases/" + sys.argv[1]
     [x, y] = generateStrings(INPUT)
     start_time = time.time()
-    output = nw(x, y)
+    z, w = hirschberg(x, y)
     end_time = time.time()
     time_taken = (end_time - start_time)*1000
     # score
-    print(output[0])
+    # print(output[0])
     # x answer
-    print(output[1])
+    print(z)
     # y answer
-    print(output[2])
+    print(w)
     # time
     print(time_taken)
     # memory
@@ -60,26 +62,28 @@ def hirschberg(x, y):
         w = output[2]
     else:
         xlen = len(x)
-        xmid = len(x) / 2
+        xmid = int(len(x) / 2)
         ylen = len(y)
 
-        # scoreL = nwScore(x[:xmid], y)
-        # scoreR = nwScore(x[xmid:][::-1], y[::-1])
-        ymid = argMax(scoreL + scoreR[::-1])
+        scoreL = nwScore(x[:xmid], y)
+        scoreR = nwScore(x[xmid:][::-1], y[::-1])
+        ymid = argMax(scoreL, scoreR[::-1])
 
-        z, w = hirschberg(x[:xmid], y[:ymid]) + hirschberg(x[xmid:], y[ymid:])
+        zl, wl = hirschberg(x[:xmid], y[:ymid])
+        zr, wr = hirschberg(x[xmid:], y[ymid:])
+
+        z = zl + zr
+        w = wl + wr
     
     return z, w
 
-def argMax(scoreL, scoreR):
-  max_index = 0
-  max_sum = float('-Inf')
-  for i, (l, r) in enumerate(zip(scoreL, scoreR)):
-    # calculate the diagonal maximum index
-    if sum([l, r]) > max_sum:
-      max_sum = sum([l, r])
-      max_index = i
-  return max_index 
+insertion    = -2
+deletion     = -2
+substitution = -1
+match        =  2
+
+def nwScore(x, y):
+   
 
 def nw(x, y):
     # len(x): number of rows
