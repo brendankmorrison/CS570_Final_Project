@@ -1,5 +1,4 @@
 import sys
-# from resource import *
 import time
 import psutil
 
@@ -26,10 +25,10 @@ MISMATCH_PENALTY = {
 
 
 def main():
-    INPUT = "SampleTestCases/" + sys.argv[1]
+    INPUT = sys.argv[1]
     [x, y] = generateStrings(INPUT)
     start_time = time.time()
-    output = run(x, y)
+    output = basic(x, y)
     end_time = time.time()
     time_taken = (end_time - start_time)*1000
 
@@ -45,7 +44,7 @@ def main():
     outputFile.close() 
 
 
-def run(x, y):
+def basic(x, y):
     # len(x): number of rows
     # len(y): number of columns
     memo = [[0 for i in range(len(y) + 1)] for j in range(len(x) + 1)]
