@@ -1,7 +1,5 @@
 import sys
-import pdb
 import copy
-import math
 import time
 import psutil
 
@@ -80,6 +78,7 @@ def score(x, y):
         for i in range(1, len(x) + 1):
             current[i] = min(prev[i - 1] + MISMATCH_PENALTY[(x[i - 1], y[j - 1])], prev[i] + GAP_PENALTY, current[i - 1] + GAP_PENALTY)
         prev = copy.deepcopy(current)
+        # prev = current
 
     return current
 
