@@ -125,68 +125,6 @@ def argmin(score_l, score_r):
     return min_index
 
 
-"""
-def hirschberg(x, y):
-    z = ""
-    w = ""
-    if len(x) == 0:
-        for i in y:
-            z = z + '_'
-            w = w + i
-    elif len(y) == 0:
-        for i in x:
-            z = z + i
-            w = w + '_'
-    elif len(x) == 1 or len(y) == 1:
-        output = nw(x, y)
-        z = output[1]
-        w = output[2]
-    else:
-        x_len = len(x)
-        x_mid = len(x) // 2
-        y_len = len(y)
-
-        score_l = nw_score(x[:x_mid], y)
-        score_r = nw_score(x[x_mid:][::-1], y[::-1])
-        y_mid = argmax(score_l, score_r[::-1])
-
-        zl, wl = hirschberg(x[:x_mid], y[:y_mid])
-        zr, wr = hirschberg(x[x_mid:], y[y_mid:])
-
-        z = zl + zr
-        w = wl + wr
-
-    return z, w
-
-
-# returns last line of the nw score matrix
-def nw_score(x, y):
-    insert = -2
-    delete = -2
-
-    prev = [0 for i in range(len(y) + 1)]
-    current = [0 for i in range(len(y) + 1)]
-
-    for j in range(1, len(y) + 1):
-        prev[j] = prev[j - 1] + insert
-
-    for i in range(1, len(x) + 1):
-        current[0] = current[0] + delete
-        for j in range(1, len(y) + 1):
-            score_sub = prev[j - 1] + sub(x[i - 1], y[j - 1])
-            score_del = prev[j] + delete
-            score_ins = current[j - 1] + insert
-            current[j] = max(score_sub, score_del, score_ins)
-        # prev = copy.copy(current)
-        prev = copy.deepcopy(current)
-        # prev = current
-
-
-    print("test: " + str(current))
-
-    return current
-"""
-
 def sub(x, y):
     if x == y:
         return 2
