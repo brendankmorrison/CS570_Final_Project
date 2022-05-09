@@ -28,10 +28,10 @@ MISMATCH_PENALTY = {
 
 
 def main():
-    INPUT = "SampleTestCases/" + sys.argv[1]
+    INPUT = sys.argv[1]
     [x, y] = generateStrings(INPUT)
     start_time = time.time()
-    z, w = hirschberg(x, y)
+    z, w = efficient(x, y)
     end_time = time.time()
     time_taken = (end_time - start_time)*1000
 
@@ -46,75 +46,45 @@ def main():
     outputFile.write(str(process_memory()) + '\n')
     outputFile.close() 
 
-    """
-    filepath = "SampleTestCases/" + sys.argv[1]
-    [x, y] = generateStrings(filepath)
-    # print(str(nw_score(x, y)))
-    start_time = time.time()
-    z, w = hirschberg(x, y)
-    end_time = time.time()
-    time_taken = (end_time - start_time) * 1000
-    # validate
-    # print(validateStrings(x, z))
-    # print(validateStrings(y, w))
-    # score
-    check(z, w)
-    # x answer
-    print(z)
-    # y answer
-    print(w)
-    # time
-    # print(time_taken)
-    # memory
-    # print(process_memory())
-    """
 
-
-def hirschberg(x, y):
-    z = ""
-    w = ""
+def efficient(x, y):
+    xans = ""
+    yans = ""
     if len(x) < 2 or len(y) < 2:
-        output = nw(x, y)
-        z = output[1]
-        w = output[2]
+        output = basic(x, y)
+        xans = output[1]
+        yans = output[2]
     else:
         m = len(x)
         n = len(y)
 
-        score_l = nw_score(x, y[:n//2])
-        score_r = nw_score(x[::-1], y[n//2:][::-1])
-        q = argmin(score_l, score_r[::-1])
+        score_l = score(x, y[:n//2])
+        score_r = score(x[::-1], y[n//2:][::-1])
+        q = min_index(score_l, score_r[::-1])
 
-        zl, wl = hirschberg(x[:q], y[:n//2])
-        zr, wr = hirschberg(x[q:], y[n//2:])
+        xl, yl = efficient(x[:q], y[:n//2])
+        xr, yr = efficient(x[q:], y[n//2:])
 
-        z = zl + zr
-        w = wl + wr
+        xans = xl + xr
+        yans = yl + yr
 
-    return z, w
+    return xans, yans
 
 
-def nw_score(x, y):
+def score(x, y):
     prev = [i * GAP_PENALTY for i in range(len(x) + 1)]
     current = [0 for i in range(len(x) + 1)]
 
     for j in range(1, len(y) + 1):
         current[0] = j * GAP_PENALTY
         for i in range(1, len(x) + 1):
-            score_sub = prev[i - 1] + MISMATCH_PENALTY[(x[i - 1], y[j - 1])]
-            score_del = prev[i] + GAP_PENALTY
-            score_ins = current[i - 1] + GAP_PENALTY
-            current[i] = min(score_sub, score_del, score_ins)
-        # prev = copy.copy(current)
+            current[i] = min(prev[i - 1] + MISMATCH_PENALTY[(x[i - 1], y[j - 1])], prev[i] + GAP_PENALTY, current[i - 1] + GAP_PENALTY)
         prev = copy.deepcopy(current)
-        # prev = current
-
-
 
     return current
 
 
-def argmin(score_l, score_r):
+def min_index(score_l, score_r):
     min_index = 0
     min_sum = float('Inf')
     for i in range(len(score_l)):
@@ -125,25 +95,7 @@ def argmin(score_l, score_r):
     return min_index
 
 
-def sub(x, y):
-    if x == y:
-        return 2
-    else:
-        return -1
-
-
-def argmax(score_l, score_r):
-    max_index = 0
-    max_sum = float('-Inf')
-    for i in range(len(score_l)):
-        if score_l[i] + score_r[i] > max_sum:
-            max_sum = score_l[i] + score_r[i]
-            max_index = i
-
-    return max_index
-
-
-def nw(x, y):
+def basic(x, y):
     # len(x): number of rows
     # len(y): number of columns
     memo = [[0 for i in range(len(y) + 1)] for j in range(len(x) + 1)]
