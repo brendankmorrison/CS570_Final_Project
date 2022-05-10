@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-problem_size = np.array([8, 32, 64, 128, 192, 256, 384, 512, 640, 768, 1024, 1280, 1536, 1792, 1984])
+problem_size1 = np.array([8, 32, 64, 128, 192, 256, 384, 512, 640, 768, 1024, 1280, 1536, 1792, 1984])
+problem_size2 = problem_size1 * 2
 
 cpu_basic = np.array([0.06389617919921875, 0.6361007690429688, 2.3508071899414062, 9.13095474243164, 19.037961959838867,
                       31.6159725189209, 65.34814834594727, 110.83698272705078, 172.868013381958, 243.7739372253418,
@@ -13,8 +14,8 @@ cpu_effic = np.array([0.17881393432617188, 1.9850730895996094, 7.283210754394531
 mem_basic = np.array([10976, 11248, 11552, 11184, 11696, 11696, 12416, 13488, 15056, 16672, 20736, 26496, 31728, 29408, 20624])
 mem_effic = np.array([12016, 12176, 11696, 12448, 12480, 11872, 12496, 12320, 12272, 12576, 12784, 12528, 12272, 12672, 13136])
 
-plt.plot(problem_size, cpu_basic)
-plt.plot(problem_size, cpu_effic)
-# plt.plot(problem_size, mem_basic)
-# plt.plot(problem_size, mem_effic)
+# plt.plot(problem_size2, cpu_basic)
+# plt.plot(problem_size2, cpu_effic)
+plt.plot(problem_size2, mem_basic)
+plt.plot(problem_size2, mem_effic)
 plt.show()

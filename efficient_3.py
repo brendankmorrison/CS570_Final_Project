@@ -1,5 +1,4 @@
 import sys
-import copy
 import time
 import psutil
 
@@ -29,7 +28,7 @@ def main():
     INPUT = sys.argv[1]
     [x, y] = generateStrings(INPUT)
     start_time = time.time()
-    z, w = efficient(x, y)
+    xans, yans = efficient(x, y)
     end_time = time.time()
     time_taken = (end_time - start_time)*1000
 
@@ -37,9 +36,9 @@ def main():
         outputFile = open(sys.argv[2], "w") 
     except:
         outputFile = open(sys.argv[2], "x") 
-    outputFile.write(str(check(z, w)) + '\n')
-    outputFile.write(z + '\n')
-    outputFile.write(w + '\n')
+    outputFile.write(str(check(xans, yans)) + '\n')
+    outputFile.write(xans + '\n')
+    outputFile.write(yans + '\n')
     outputFile.write(str(time_taken) + '\n')
     outputFile.write(str(process_memory()) + '\n')
     outputFile.close() 
@@ -77,8 +76,8 @@ def score(x, y):
         current[0] = j * GAP_PENALTY
         for i in range(1, len(x) + 1):
             current[i] = min(prev[i - 1] + MISMATCH_PENALTY[(x[i - 1], y[j - 1])], prev[i] + GAP_PENALTY, current[i - 1] + GAP_PENALTY)
-        prev = copy.deepcopy(current)
-        # prev = current
+        for i in range(len(x) + 1):
+            prev[i] = current[i]
 
     return current
 
